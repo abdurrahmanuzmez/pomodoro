@@ -1,34 +1,76 @@
-const {createServer} = require('http');
 const express = require('express');
-const compression = require('compression');
-const morgan = require('morgan');
-const path = require('path');
-
-const normalizePort = port => parseInt(port, 10);
-const PORT = normalizePort(process.env.PORT || 5000);
-
+const bodyParser = require('body-parser');
 const app = express();
-const dev = app.get('env') !== 'production';
- 
-if (!dev){
-    app.disable('x-powered-by');
-    app.use(compression());
-    app.use(morgan('common'));
+const mysql = require('mysql');
 
-    app.use(express.static(path.resolve(__dirname, 'build')));
+// parse application/json
+//app.use(bodyParser.json());
+// parse application/json
+app.use(bodyParser.json());
 
-    app.use('*', (req,res) =>  {
-        res.sendFile(path.resolve(__dirname, 'build' , 'index.html'))
-    })
-}
+//create database connection
+const conn = mysql.createConnection({
+    host: 'us-cdbr-east-02.cleardb.com',
+    user: 'b7a8adb1fd7dcf',
+    password: '5aa41273',
+    database: 'heroku_66db3627632a476'
+});
 
-if (dev){
-    app.use(morgan('dev'))
-}
+//connect to database
+conn.connect((err) =>{
+    if(err) throw err;
+    console.log('Mysql Connected...');
+});
 
-const server = createServer(app);
 
-server.listen(PORT, err => {
-    if (err) throw err
-    console.log("server started!")
-})
+//show all products
+app.get('/api/products',(req, res) => {
+    let sql = "SELECT * FROM product";
+    let query = conn.query(sql, (err, results) => {
+        if(err) throw err;
+        res.send(JSON.stringify({"response": results}));
+    });
+});
+
+//show single product
+app.get('/api/products/:id',(req, res) => {
+    let sql = "SELECT * FROM product WHERE product_id="+req.params.id;
+    let query = conn.query(sql, (err, results) => {
+        if(err) throw err;
+        res.send(JSON.stringify({"response": results}));
+    });
+});
+
+//add new product
+app.post('/api/products',(req, res) => {
+    let data = {product_name: req.body.product_name, product_price: req.body.product_price};
+    let sql = "INSERT INTO product SET ?";
+    let query = conn.query(sql, data,(err, results) => {
+        if(err) throw err;
+        res.send(JSON.stringify({"response": results}));
+    });
+});
+
+//update product
+app.put('/api/products/:id',(req, res) => {
+    let sql = "UPDATE product SET product_name='"+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.params.id;
+    let query = conn.query(sql, (err, results) => {
+        if(err) throw err;
+        res.send(JSON.stringify({"response": results}));
+    });
+});
+
+//Delete product
+app.delete('/api/products/:id',(req, res) => {
+    let sql = "DELETE FROM product WHERE product_id="+req.params.id+"";
+    let query = conn.query(sql, (err, results) => {
+        if(err) throw err;
+        res.send(JSON.stringify({"response": results}));
+    });
+});
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
+});
