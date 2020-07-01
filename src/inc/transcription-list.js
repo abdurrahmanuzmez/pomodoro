@@ -6,17 +6,20 @@ export class TranscList extends React.Component{
     constructor(){
         super();
         this.state = {
-            posts : []
+            posts : [],
+            errorMsg: ''
         };
     }
 
     componentDidMount() {
-        axios.get("https://arcane-reef-06137.herokuapp.com/api/products/")
+        axios.get("https://jsonplaceholder.typicode.com/posts")
             .then(response => {
                 console.log(response)
+                this.setState({posts: response.data})
             })
             .catch(error =>{
-                console.log(error)
+                console.log(error);
+                this.setState({errorMsg: 'error retreiving data'})
             })
     }
 
@@ -25,6 +28,8 @@ export class TranscList extends React.Component{
     }
 
     render() {
+        const {posts, errorMsg} = this.state;
+
         const items = this.props.myTransc.map((elem, i) =>{
            let task_id = 'task_' + i;
            return (
@@ -41,6 +46,12 @@ export class TranscList extends React.Component{
                 <ul>
                     {items}
                 </ul>
+                {
+                    posts.lenght ?
+                        posts.map(post => <div key={post.id}>{post.title}</div>) :
+                        null
+                }
+                {errorMsg ? <div>{errorMsg}</div> : null}
             </div>
         )
     }
