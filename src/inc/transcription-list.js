@@ -12,13 +12,14 @@ export class TranscList extends React.Component{
     }
 
     componentDidMount() {
-        axios.get("https://jsonplaceholder.typicode.com/posts")
+        axios.get("https://whispering-fjord-00457.herokuapp.com/api/products/")
             .then(response => {
                 console.log(response)
                 this.setState({posts: response.data})
             })
             .catch(error =>{
                 console.log(error);
+
                 this.setState({errorMsg: 'error retreiving data'})
             })
     }

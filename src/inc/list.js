@@ -6,10 +6,29 @@ import {BrowserRouter as Router, Route, Link } from "react-router-dom"
 import {Pomodoro} from "./pomodoro";
 import {Break} from "./break";
 
+import axios from 'axios';
+import UserForm from "./components/UserForm";
+
 class List extends Component{
+    state = {
+        tasks: null
+    }
+    getUser = (e) => {
+        e.preventDefault();
+        const user = e.target.elements.username.value;
+        if (user) {
+            axios.get(`https://api.github.com/users/${user}`)
+                .then((res) => {
+                    const tasks = res.data.public_repos;
+                    this.setState({ tasks });
+                    console.log(res.data)
+                })
+        } else return;
+    }
 
     constructor(){
         super();
+
         this.state = {myTransc: [
                 {text: "Example Task", time: 1},
             ]};
@@ -37,8 +56,13 @@ class List extends Component{
             <TranscForm addTranscription={this.addTranscription}/>
         );
         const List = () => (
-            <TranscList myTransc={this.state.myTransc}
-                        removeTranscription={this.removeTranscription}/>
+            <div>
+                <UserForm getUser={this.getUser} />
+                { this.state.tasks ? <p>Number of tasks: { this.state.tasks }</p> : <p>Please enter a username.</p> }
+                {/*<TranscList myTransc={this.state.myTransc}
+                        removeTranscription={this.removeTranscription}/>*/}
+
+            </div>
         );
 
         return (
