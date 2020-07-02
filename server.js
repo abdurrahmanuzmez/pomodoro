@@ -3,8 +3,13 @@ const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql');
 
+const path = require('path');
+
+const publicPath = path.join(__dirname, '..', 'public');
+
 // parse application/json
 app.use(bodyParser.json());
+app.use(express.static(publicPath));
 
 //create database connection
 const conn = mysql.createConnection({
@@ -19,6 +24,7 @@ app.get('/api/products',(req, res) => {
     let query = conn.query(sql, (err, results) => {
         if(err) throw err;
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+        res.sendFile(path.join(publicPath, 'index.html'));
     });
 });
 
