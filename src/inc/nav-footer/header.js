@@ -3,10 +3,12 @@ import React from 'react';
 export class Header extends React.Component{
     render() {
         return(
+
             <div className="container">
                 <div className="header row">
-                    <div id="left-side" className="col-md-8">
-                        <img className="logo" height="40" src="https://pomofocus.io/icons/icon-white.png" />
+                    <div className="col-md-1" />
+                    <div id="left-side" className="col-md-7">
+                        <img alt="pomodoro" className="logo" height="80" src="http://localhost:3000/logo.png" />
                         <div className="title logo "><b>Pomofocus</b></div>
                     </div>
                     <div className="top-buttons col-md-4">

@@ -11,19 +11,20 @@ code {
     monospace;
 }
 
-hr{
-    max-width: 60%;
-}
-
 #white{
     color: white;
 }
 
 /*HEADER*/
 
+#header-hr{
+    width: 65%;
+}
+
 .header{
     width: 100%;
     text-align: center;
+    margin-top: 1rem;
 }
 
 .logo{
@@ -32,19 +33,23 @@ hr{
 
 .title{
     color: white;
-    margin-top: 7px;
-    margin-left: 2rem;
-
+    margin-top: 1rem;
+    margin-left: 1rem;
+    font-size: 2rem;
 }
 
 .top-bottoms{
     float: left;
+    margin-top: 1rem;
+
 }
 
 #graph{
     float: left;
     border-radius: 4px;
     padding-right: 5rem;
+    margin-top: 1rem;
+
 }
 
 #user{
@@ -106,7 +111,7 @@ hr{
     text-align: center;
 }
 
-.input{
+input{
     width: 30%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -116,8 +121,8 @@ hr{
     box-sizing: border-box;
 }
 
-#transcInput{
-    margin-right: 2rem;
+#timeInput{
+    margin-left: 2rem !important;
 }
 
 
@@ -144,4 +149,29 @@ ul{
 #list-hr{
     border: 1px solid white;
     width: 50%;
+}
+
+/*FOOTER*/
+
+#footer-hr{
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    width: 90% !important;
+}
+
+#my-name{
+    margin: -1.5rem 0 0 ;
+    color: white;
+}
+
+.footer-link{
+    text-decoration: none;
+    color: white;
+
+}
+
+.footer-link:hover{
+    color: white;
+    text-decoration: none;
+    background: none rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
 }

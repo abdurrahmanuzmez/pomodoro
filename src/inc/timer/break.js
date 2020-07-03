@@ -1,10 +1,10 @@
 import React from 'react'
-import soundfile from '../alarm-clock-sound.mp3'
+import soundfile from '../../alarm-clock-sound.mp3'
 
 export class Break extends React.Component {
     constructor() {
         super();
-        this.state = { time: {}, seconds: 2, isStart: false };
+        this.state = { time: {}, seconds: 300, isStart: false };
         this.timer = 0;
         this.startTimer = this.startTimer.bind(this);
         this.countDown = this.countDown.bind(this);
@@ -62,7 +62,7 @@ export class Break extends React.Component {
         });
 
         // Check if we're at zero.
-        if (seconds == 0) {
+        if (seconds === 0) {
             clearInterval(this.timer);
             var audio = new Audio(soundfile);
             audio.play();

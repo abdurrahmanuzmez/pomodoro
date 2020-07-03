@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
-import {Header} from "./inc/header";
+import {Header} from "./inc/nav-footer/header";
 
 import {BrowserRouter as Router, Route, Link } from "react-router-dom"
-import {VideoPlayer} from "./inc/video-player";
-import {Break} from "./inc/break";
-import {Pomodoro} from "./inc/pomodoro";
+import {Break} from "./inc/timer/break";
+import {Pomodoro} from "./inc/timer/pomodoro";
 import List from "./inc/list";
+import {Footer} from "./inc/nav-footer/footer";
 
 class App extends Component{
-
   render() {
 
     const Home = () => (
@@ -18,14 +17,14 @@ class App extends Component{
         <Break />
     );
 
+
     return (
-      <div className="App">
+      <div className="App" id="main">
 
         <Header/>
-        <hr />
+        <hr id="header-hr"/>
 
         <div className="timer">
-
           <Router>
             <ul className="pomodoro-buttons">
               <li className="pomodoro-btn">
@@ -45,7 +44,7 @@ class App extends Component{
 
         </div>
         <List />
-
+        <Footer />
       </div>
     );
   }

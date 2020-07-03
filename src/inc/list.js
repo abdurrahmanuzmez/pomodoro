@@ -1,66 +1,63 @@
 import React, {Component} from 'react';
-import {TranscForm} from "./transcription-form";
-import {TranscList} from "./transcription-list";
+import {TaskForm} from "./tasks/TaskForm";
 
 import {BrowserRouter as Router, Route, Link } from "react-router-dom"
-import {Pomodoro} from "./pomodoro";
-import {Break} from "./break";
 
 import axios from 'axios';
-import UserForm from "./components/UserForm";
+import TaskList from "./tasks/TaskList";
 
 class List extends Component{
-    state = {
-        tasks: null
-    }
-    getUser = (e) => {
-        e.preventDefault();
-        const user = e.target.elements.username.value;
-        if (user) {
-            axios.get(`https://api.github.com/users/${user}`)
-                .then((res) => {
-                    const tasks = res.data.public_repos;
-                    this.setState({ tasks });
-                    console.log(res.data)
-                })
-        } else return;
-    }
 
     constructor(){
         super();
-
-        this.state = {myTransc: [
-                {text: "Example Task", time: 1},
-            ]};
-        this.addTranscription = this.addTranscription.bind(this);
-        this.removeTranscription = this.removeTranscription.bind(this);
+        this.state = { myList:[
+                {
+                    tasks: '',
+                    time: '',
+                }]
+        };
+        axios.get(`http://localhost:3000/jsons/json1`)
+            .then((res) => {
+                var a = Object.keys(res.data.response).length;
+                for (var i = 0; i < a; i++){
+                    let updateList = this.state.myList;
+                    const updateTasks = res.data.response[i].task_name;
+                    const updateTime = res.data.response[i].time_value;
+                    updateList.push({tasks: updateTasks, time: updateTime});
+                    this.setState({myList : updateList});
+                }
+            })
+            .catch(error =>{
+                console.log(error);
+                this.setState({tasks: 'error retreiving data'})
+            });
+        this.handleChange = this.handleChange.bind(this);
+        this.removeTask = this.removeTask.bind(this);
     }
 
-    addTranscription(val, valTime){
-        let updateList = this.state.myTransc;
-        updateList.push({text: val, time: valTime});
-        this.setState({myTransc: updateList});
+    handleChange(val, valTime){
+        let updateList = this.state.myList;
+        updateList.push({tasks: val, time: valTime});
+        this.setState({myList: updateList});
     }
 
-    removeTranscription(task_id){
+    removeTask(task_id){
         task_id = task_id.replace('task_','');
-        let updateList = this.state.myTransc;
+        let updateList = this.state.myList;
         updateList.splice(task_id,1);
-        this.setState({myTransc: updateList});
+        this.setState({myList: updateList});
     }
 
 
     render() {
 
         const Form = () => (
-            <TranscForm addTranscription={this.addTranscription}/>
+            <TaskForm addTranscription={this.handleChange}/>
         );
         const List = () => (
             <div>
-                <UserForm getUser={this.getUser} />
-                { this.state.tasks ? <p>Number of tasks: { this.state.tasks }</p> : <p>Please enter a username.</p> }
-                {/*<TranscList myTransc={this.state.myTransc}
-                        removeTranscription={this.removeTranscription}/>*/}
+                <TaskList myList={this.state.myList}
+                          removeTask={this.removeTask}/>
 
             </div>
         );

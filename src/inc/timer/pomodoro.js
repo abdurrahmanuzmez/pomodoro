@@ -1,10 +1,11 @@
 import React from "react";
-import soundfile from '../alarm-clock-sound.mp3'
+import soundfile from '../../alarm-clock-sound.mp3'
+
 
 export class Pomodoro extends React.Component {
     constructor() {
         super();
-        this.state = { time: {}, seconds: 5, isStart: false };
+        this.state = { time: {}, seconds: 1500, isStart: false };
         this.timer = 0;
         this.startTimer = this.startTimer.bind(this);
         this.countDown = this.countDown.bind(this);
@@ -62,7 +63,7 @@ export class Pomodoro extends React.Component {
         });
 
         // Check if we're at zero.
-        if (seconds == 0) {
+        if (seconds === 0) {
             clearInterval(this.timer);
             var audio = new Audio(soundfile);
             audio.play();
@@ -80,7 +81,13 @@ export class Pomodoro extends React.Component {
                 </span>
                 <br />
 
-                <button className="pomodoro-action-btn" onClick={this.startTimer}>{label}</button>
+                <div  className="container">
+                    <div className="row">
+                        <div className="col-md-2" />
+                        <button className="pomodoro-action-btn col-md-8" onClick={this.startTimer}>{label}</button>
+                        <div className="col-md-2" />
+                    </div>
+                </div>
             </div>
         )
     }
