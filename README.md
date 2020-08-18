@@ -1,3 +1,21 @@
+#Pomodorofocus.io Clone
+
+This project made for time and study addict guys. Thanks to Baris Ozcan
+
+#Why did i choose Reactjs
+
+Javascript is endless world for making crazy things. <br>
+Also Facebook let me use React (and that shit is crazy good!)
+
+#Why did i choose Node.js
+
+I don't think I have to praising node.js. New developers! You guys should learn first Node.js.
+
+#Why did i choose Heroku for Express
+
+Heroku let me use GET, PULL, DELETE etc. database stuffs for free. <br>
+I don't to need pay any databases and transactions from start.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
